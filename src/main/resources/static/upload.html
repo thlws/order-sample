@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Boot 文件上传</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .upload-form {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Spring Boot 文件上传示例</h1>
+
+    <!-- 单文件上传表单 -->
+    <div class="upload-form">
+        <h2>单文件上传</h2>
+        <form id="singleUploadForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">选择文件:</label>
+                <input type="file" id="file" name="file" required>
+            </div>
+            <button type="submit">上传</button>
+        </form>
+        <div id="singleResult" class="result"></div>
+    </div>
+
+    <!-- 多文件上传表单 -->
+    <div class="upload-form">
+        <h2>多文件上传</h2>
+        <form id="multipleUploadForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="files">选择文件 (可多选):</label>
+                <input type="file" id="files" name="files" multiple required>
+            </div>
+            <button type="submit">上传</button>
+        </form>
+        <div id="multipleResult" class="result"></div>
+    </div>
+</div>
+
+<script>
+    // 单文件上传处理
+    document.getElementById('singleUploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const resultDiv = document.getElementById('singleResult');
+
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                resultDiv.className = 'result ' + (response.ok ? 'success' : 'error');
+                return response.text();
+            })
+            .then(data => {
+                resultDiv.innerHTML = data;
+            })
+            .catch(error => {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '上传失败: ' + error.message;
+            });
+    });
+
+    // 多文件上传处理
+    document.getElementById('multipleUploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const resultDiv = document.getElementById('multipleResult');
+
+        fetch('/upload-multiple', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                resultDiv.className = 'result ' + (response.ok ? 'success' : 'error');
+                return response.text();
+            })
+            .then(data => {
+                resultDiv.innerHTML = data;
+            })
+            .catch(error => {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '上传失败: ' + error.message;
+            });
+    });
+</script>
+</body>
+</html>

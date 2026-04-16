@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: ${nacos.discovery.server-addr:http://118.196.92.13:8848}
+        register-enabled: true
+        namespace: ${nacos.discovery.namespace:558e3fed-82fe-4026-b5a7-c9bf5c953307}
+        enabled: true
