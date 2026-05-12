@@ -41,8 +41,11 @@ public class IndexController {
     }
 
     @RequestMapping("/slow/{seconds}")
-    public ResponseEntity<String> index(@PathVariable(value = "seconds") Integer seconds) {
+    public ResponseEntity<String> index(@PathVariable(value = "seconds") Integer seconds,
+                                        @RequestHeader(name = "userid",required = false) String userId,
+                                        @RequestHeader(name = "brandCode",required = false) String brandCode) {
         try {
+            log.info("brandCode={},userId={}",brandCode,userId);
             if (counter.incrementAndGet() / 3 == 0) {
                 TimeUnit.SECONDS.sleep(seconds);
             }

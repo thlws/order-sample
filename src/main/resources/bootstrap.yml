@@ -4,7 +4,13 @@ spring:
       username: ${nacos.username:}
       password: ${nacos.password:}
       discovery:
-        server-addr: ${nacos.serverAddr:http://118.196.92.13:8848}
+        server-addr: ${nacos.serverAddr:10.123.132.64:8848}
         register-enabled: true
-        namespace: ${nacos.namespace:558e3fed-82fe-4026-b5a7-c9bf5c953307}
+        namespace: ${nacos.namespace:87607fbc-5922-4c17-874f-364884ea91de}
         enabled: true
+  rabbitmq:
+    host: rbtmq-f0ca87993de8.rabbitmq.ivolces.com
+    port: 5672
+    username: root
+    password: RLu6bif#PE
+    virtual-host: /
